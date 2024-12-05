@@ -60,12 +60,32 @@ t_coord4	rgba(int r, int g, int b, int a)
 	return (rgbaa);
 }
 
+t_coord3	get_pixel_color(t_env *env, char *addr, int x, int y)
+{
+	t_coord3	color;
+	int		pixel;
+
+	pixel = (y * env->line_length) + (x * 4);
+	color.x = (unsigned char)addr[pixel + 2];
+	color.y = (unsigned char)addr[pixel + 1];
+	color.z = (unsigned char)addr[pixel];
+	return (color);
+}
+
 void	put_color(t_env *env, int color, int pixel)
 {
 	env->addr[pixel + 0] = (color) & 0xFF;
 	env->addr[pixel + 1] = (color >> 8) & 0xFF;
 	env->addr[pixel + 2] = (color >> 16) & 0xFF;
 	env->addr[pixel + 3] = (color >> 24);
+}
+
+void	put_color2(char *addr, int color, int pixel)
+{
+	addr[pixel + 0] = (color) & 0xFF;
+	addr[pixel + 1] = (color >> 8) & 0xFF;
+	addr[pixel + 2] = (color >> 16) & 0xFF;
+	addr[pixel + 3] = (color >> 24);
 }
 
 int	rgba_fusion(t_coord4 a, t_coord4 b)

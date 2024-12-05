@@ -45,6 +45,31 @@ int	configure_set(t_env *env, char *s)
 	return (-1);
 }
 
+int	no_arg(char **av, t_env *env, int i)
+{
+	if (ft_strncmp(av[i], "-shift", ft_strlen("-shift") + 1) == 0)
+	{
+		env->shift = 1;
+		return (0);
+	}
+	else if (ft_strncmp(av[i], "-anime", ft_strlen("-anime") + 1) == 0)
+	{
+		init_anime_julia(env);
+		return (0);
+	}
+	else if (ft_strncmp(av[i], "-h", ft_strlen("-h") + 1) == 0)
+	{
+		print_help();
+		return (0);
+	}
+	else if (ft_strncmp(av[i], "-anti", ft_strlen("-anti") + 1) == 0)
+	{
+		env->antialiasing = 1;
+		return (0);
+	}
+	return (-1);
+}
+
 int	test(int ac, char **av, t_env *env, int i)
 {
 	if (ft_strncmp(av[i], "-itel", ft_strlen("-itel") + 1) == 0)
@@ -52,8 +77,6 @@ int	test(int ac, char **av, t_env *env, int i)
 		if (i + 1 >= ac || configure_itelimit(env, av[++i]) == -1)
 			return (-1);
 	}
-	else if (ft_strncmp(av[i], "-h", ft_strlen("-h") + 1) == 0)
-		print_help();
 	else if (ft_strncmp(av[i], "-c", ft_strlen("-c") + 1) == 0)
 	{
 		if (i + 1 >= ac || configure_color(env, av[++i]) == -1)
@@ -64,16 +87,12 @@ int	test(int ac, char **av, t_env *env, int i)
 		if (i + 1 >= ac || configure_limit(env, av[++i]) == -1)
 			return (-1);
 	}
-	else if (ft_strncmp(av[i], "-shift", ft_strlen("-shift") + 1) == 0)
-		env->shift = 1;
-	else if (ft_strncmp(av[i], "-anime", ft_strlen("-anime") + 1) == 0)
-		init_anime_julia(env);
 	return (0);
 }
 
 int	check_type(char **av, t_env *env, int i)
 {
-	if (configure_set(env, av[++i]) != -1)
+	if (configure_set(env, av[i]) != -1)
 		return (0);
 	return (-1);
 }
@@ -88,7 +107,15 @@ int	get_arg_val(int ac, char **av, t_env *env)
 	while (i < ac)
 	{
 		if (ft_strncmp(av[i], "-t", ft_strlen("-t") + 1) == 0)
-			status = check_type(av, env, i);
+		{
+			status = check_type(av, env, i + 1);
+			i += 2;
+		}
+		else if (no_arg(av, env, i) == 0)
+				i++;
+		else if (test(ac, av, env, i) == 0)
+				i+=2;
+			/*
 		else if (ft_strncmp(av[i], "-z", ft_strlen("-z") + 1) == 0)
 		{
 			if (i + 2 >= ac || configure_z(env, av[i + 1], av[i + 2]) == -1)
@@ -96,11 +123,9 @@ int	get_arg_val(int ac, char **av, t_env *env)
 			else
 				i += 3;
 		}
-		else if (test(ac, av, env, i) == 0)
-			i++;
+		*/
 		else
 			return (-1);
-		i++;
 	}
 	return (status);
 }

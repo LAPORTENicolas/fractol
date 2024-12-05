@@ -48,14 +48,14 @@ void	init_anime_julia(t_env *env)
 	env->julia_anim = 1;
 }
 
-int	animue_julia(t_env *env)
+int	anime_julia(t_env *env)
 {
 	if (env->julia_anim == 0)
 		return (0);
 	if (env->julia_target.x > env->z.x)
-		env->z.x += 0.001;
+		env->z.x += 0.002;
 	if (env->julia_target.y < env->z.y)
-		env->z.y -= 0.001;
+		env->z.y -= 0.002;
 	if (env->julia_target.x <= env->z.x || env->julia_target.y >= env->z.y)
 		env->julia_anim = 0;
 	render(env);
