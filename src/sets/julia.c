@@ -15,8 +15,8 @@
 //c = init_vec2(0.3, 0.5);
 //c = init_vec2(-1.417022285618,  0.0099534);
 //c = init_vec2(–0.038088, 0.97);
-//c = init_vec2(-0.4, 0.6);
 //c = init_vec2(-0.8, 0.15);
+//c = init_vec2(-0.4, 0.6);
 static int	julia_logic(t_env *env, t_coord act)
 {
 	t_coord		c;
@@ -25,11 +25,12 @@ static int	julia_logic(t_env *env, t_coord act)
 	int			i;
 
 	(void) act;
-	c = init_vec2(env->z.x, env->z.y);
+	//c = init_vec2(env->z.x, env->z.y);
+	c = init_vec2(-0.4, 0.6);
 	z = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
 	i = 0;
-	while (z.x * z.x + z.y * z.y < 4 && i < env->itelimit)
+	while (z.x * z.x + z.y * z.y < env->limit && i < env->itelimit)
 	{
 		tmp = z.x;
 		z.x = z.x * z.x - z.y * z.y + c.x;

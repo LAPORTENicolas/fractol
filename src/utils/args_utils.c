@@ -20,15 +20,17 @@ void	print_help(void)
 	ft_printf("	-t		: set type		[mandelbrot, \
 julia, burning-ship]\n");
 	ft_printf("	-itel		: set iterationn limit \
- [1 - 9999]				(default: 100)\n");
+ [1 - 1000]				(default: 100)\n");
 	ft_printf("	-l		: set limit 		[2 - 10]\
-(default: 3)\n");
+				(default: 3)\n");
 	ft_printf("	-c		: set color palette 	[1 \
 - 5]					(default: 1)\n");
 	ft_printf("	-z		: set complex number 	[double\
 double] \033[93mONLY FOR JULIA !\033[0m		(default: 0.3 0.5)\n");
 	ft_printf("	-shift		: set color shift enable \
 					(default: disable)\n");
+	ft_printf("	-anti		: set antialiasing enable (only SSAAx2) \
+			(default: disable)\n");
 	ft_printf("Use:\n");
 	ft_printf("	ZQSD For move\n");
 	ft_printf("	Up arrow: 	increase limit\n");

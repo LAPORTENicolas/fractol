@@ -45,7 +45,7 @@ int	keyboard_handler(int button, t_env *env)
 	if (button == 65307)
 		exit(EXIT_SUCCESS);
 	check_move(button, env);
-	if (button == 65362 && env->itelimit < 1000)
+	if (button == 65362 && env->itelimit < 3000)
 		env->itelimit += 10;
 	else if (button == 65364 && env->itelimit > 10)
 		env->itelimit -= 10;

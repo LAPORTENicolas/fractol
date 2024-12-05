@@ -123,18 +123,19 @@ t_env	create_env(void)
 	return (env);
 }
 
+
 void edit_env(t_env *env)
 {
 	if (env->antialiasing)
 	{
-		env->size.z = 450;
+		env->size.z = 350;
 		env->size.x = (env->plage.x2 - env->plage.x1) * env->size.z;
 		env->size.y = (env->plage.y2 - env->plage.y1) * env->size.z;
 		env->win = mlx_new_window(env->mlx, env->size.x / ANTI, env->size.y / ANTI, "Fractol");
 	}
 	else
 	{
-		env->size.z = 150;
+		env->size.z = 100;
 		env->size.x = (env->plage.x2 - env->plage.x1) * env->size.z;
 		env->size.y = (env->plage.y2 - env->plage.y1) * env->size.z;
 		env->win = mlx_new_window(env->mlx, env->size.x, env->size.y, "Fractol");
