@@ -18,6 +18,7 @@
 # include <math.h>
 # include <limits.h>
 # define TWOP 6.28318530718
+# define ANTI 2
 
 typedef struct s_coord
 {
@@ -54,7 +55,9 @@ typedef struct s_env
 	void		*mlx;
 	void		*win;
 	void		*img;
+	void		*img_r;
 	char		*addr;
+	char		*addr_r;
 	t_coord		z;
 	t_coord4	pos;
 	t_coord3	size;
@@ -62,11 +65,15 @@ typedef struct s_env
 	int			itelimit;
 	int			limit;
 	int			bits_per_pixel;
+	int			bits_per_pixel_r;
 	int			line_length;
+	int			line_length_r;
 	int			endian;
+	int			endian_r;
 	int			shift;
 	int			cam;
 	int			julia_anim;
+	int			antialiasing;
 	t_coord		julia_target;
 	double		camscale;
 	double		tik;
@@ -84,6 +91,7 @@ t_coord3	palette4(double t);
 t_coord3	palette5(double t);
 t_coord3	palette6(double t);
 t_coord3	palette7(double t);
+t_coord3	get_pixel_color(t_env *env, char *addr, int x, int y);
 
 void		render(t_env *env);
 void		mandelbrot(t_env *env, t_coord act);
@@ -91,10 +99,11 @@ void		buddhabrot(t_env *env, t_coord act);
 void		burning_ship(t_env *env, t_coord act);
 void		nova_logic(t_env *env, t_coord act);
 void		julia(t_env *env, t_coord act);
-void		anime_julia(t_env *env);
+int			anime_julia(t_env *env);
 void		init_anime_julia(t_env *env);
 void		print_help(void);
 void		put_color(t_env *env, int color, int pixel);
+void		put_color2(char *addr, int color, int pixel);
 
 double		ft_atof(char *s);
 

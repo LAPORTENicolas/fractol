@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../fractol.h"
+#include <math.h>
 
 static t_coord	mandelbrot_logic(t_env *env, t_coord act)
 {

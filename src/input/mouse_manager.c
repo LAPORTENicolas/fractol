@@ -63,6 +63,14 @@ int	mouse_handler(int button, int x, int y, t_env *env)
 	env->zoom.target = env->size.z / scale;
 	env->zoom.step = (env->zoom.target - env->zoom.act) / 5.;
 	env->zoom.is_zoom = 1;
+	if (env->antialiasing)
+	{
+		env->zoom.neww.x = env->plage.x1 + (x / ((double)env->size.x / ANTI)) * dif.x;
+		env->zoom.neww.y = env->plage.y1 + (y / ((double)env->size.y / ANTI)) * dif.y;
+		env->zoom.neww.x = env->plage.x1 + (x / ((double)env->size.x / ANTI)) * dif.x;
+		env->zoom.neww.y = env->plage.y1 + (y / ((double)env->size.y / ANTI)) * dif.y;
+		return (0);
+	}
 	env->zoom.neww.x = env->plage.x1 + (x / (double)env->size.x) * dif.x;
 	env->zoom.neww.y = env->plage.y1 + (y / (double)env->size.y) * dif.y;
 	env->zoom.neww.x = env->plage.x1 + (x / (double)env->size.x) * dif.x;
