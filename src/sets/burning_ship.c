@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:09:40 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/03 23:09:34 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:06:50 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ void	burning_ship(t_env *env, t_coord act)
 	}
 	else
 		color = rgba_to_hex(0, 0, 0, 0);
-	put_color(env, color, (act.y * env->line_length) + (act.x * 4));
+	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
 }

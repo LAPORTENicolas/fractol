@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:09:40 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/04 11:40:37 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:06:39 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static int	julia_logic(t_env *env, t_coord act)
 	int			i;
 
 	(void) act;
-	//c = init_vec2(env->z.x, env->z.y);
-	c = init_vec2(-0.4, 0.6);
+	c = init_vec2(env->z.x, env->z.y);
 	z = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
 	i = 0;
@@ -81,5 +80,5 @@ void	julia(t_env *env, t_coord act)
 	}
 	else
 		color = rgba_to_hex(0, 0, 0, 0);
-	put_color(env, color, (act.y * env->line_length) + (act.x * 4));
+	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
 }

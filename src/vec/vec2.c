@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 10:09:21 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/04 14:00:37 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:09:31 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_coord	add_vec2(t_coord vec1, t_coord vec2)
 
 t_coord	sub_vec2(t_coord vec1, t_coord vec2)
 {
-	t_coord new;
+	t_coord	new;
 
 	new.x = vec1.x - vec2.x;
 	new.y = vec1.y - vec2.y;
@@ -41,7 +41,7 @@ t_coord	sub_vec2(t_coord vec1, t_coord vec2)
 
 t_coord	div_vec2(t_coord vec1, t_coord vec2)
 {
-	t_coord new;
+	t_coord	new;
 
 	new.x = vec1.x / vec2.x;
 	new.y = vec1.y / vec2.y;

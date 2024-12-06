@@ -6,44 +6,11 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:56:58 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/04 14:09:04 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:38:44 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
-#include <libft.h>
-
-int	configure_set(t_env *env, char *s)
-{
-	if (s && ft_strncmp(s, "mandelbrot", ft_strlen("mandelbrot") + 1) == 0)
-	{
-		env->type = mandelbrot;
-		return (0);
-	}
-	else if (s && ft_strncmp(s, "julia", ft_strlen("julia") + 1) == 0)
-	{
-		env->type = julia;
-		return (0);
-	}
-	else if (s && ft_strncmp(s, "burning-ship", ft_strlen("burning-ship") + 1) == 0)
-	{
-		env->type = burning_ship;
-		return (0);
-	}
-	else if (s && ft_strncmp(s, "buddhabrot", ft_strlen("buddhabrot") + 1) == 0)
-	{
-		env->type = buddhabrot;
-		return (0);
-	}
-	else if (s && ft_strncmp(s, "nova", ft_strlen("nova") + 1) == 0)
-	{
-		env->type = nova_logic;
-		return (0);
-	}
-	ft_putendl_fd("\033[31mType error:\
-	bad name, try ./fractol -t mandelbrot\033[0m", 2);
-	return (-1);
-}
 
 int	no_arg(char **av, t_env *env, int i)
 {
@@ -70,7 +37,7 @@ int	no_arg(char **av, t_env *env, int i)
 	return (-1);
 }
 
-int	test(int ac, char **av, t_env *env, int i)
+int	one_arg(int ac, char **av, t_env *env, int i)
 {
 	if (ft_strncmp(av[i], "-itel", ft_strlen("-itel") + 1) == 0)
 	{
@@ -112,18 +79,11 @@ int	get_arg_val(int ac, char **av, t_env *env)
 			i += 2;
 		}
 		else if (no_arg(av, env, i) == 0)
-				i++;
-		else if (test(ac, av, env, i) == 0)
-				i+=2;
-			/*
-		else if (ft_strncmp(av[i], "-z", ft_strlen("-z") + 1) == 0)
-		{
-			if (i + 2 >= ac || configure_z(env, av[i + 1], av[i + 2]) == -1)
-				return (-1);
-			else
-				i += 3;
-		}
-		*/
+			i++;
+		else if (one_arg(ac, av, env, i) == 0)
+			i += 2;
+		else if (check_z(ac, av, env, i) == 0)
+			i += 3;
 		else
 			return (-1);
 	}

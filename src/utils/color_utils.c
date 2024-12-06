@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:07:15 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/01 00:13:37 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:16:01 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,25 @@ int	rgba_to_hex(int r, int g, int b, int a)
 	return ((a << 24) | (r << 16) | (g << 8) | b);
 }
 
-t_coord4	rgba(int r, int g, int b, int a)
+int	gen_color(t_env *env, t_coord3 i)
 {
-	t_coord4	rgbaa;
+	t_coord3	pal;
+	double		logg;
+	double		smooth;
 
-	if (r < 0)
-		r = 0;
-	if (r > 255)
-		r = 255;
-	if (g < 0)
-		g = 0;
-	if (g > 255)
-		g = 255;
-	if (b < 0)
-		b = 0;
-	if (b > 255)
-		b = 255;
-	if (a < 0)
-		a = 0;
-	if (a > 255)
-		a = 255;
-	rgbaa.x1 = r;
-	rgbaa.x2 = g;
-	rgbaa.y1 = b;
-	rgbaa.y2 = a;
-	return (rgbaa);
+	logg = log(i.z) / 2.0;
+	if (env->shift)
+		smooth = (i.x + 1 + env->tik) - log(logg) / log(2.0);
+	else
+		smooth = i.x + 1 - log(logg) / log(2.0);
+	pal = env->palette(smooth / (double)env->itelimit);
+	return (rgba_to_hex(pal.x * 255, pal.y * 255, pal.z * 255, 255));
 }
 
 t_coord3	get_pixel_color(t_env *env, char *addr, int x, int y)
 {
 	t_coord3	color;
-	int		pixel;
+	int			pixel;
 
 	pixel = (y * env->line_length) + (x * 4);
 	color.x = (unsigned char)addr[pixel + 2];
@@ -72,15 +60,7 @@ t_coord3	get_pixel_color(t_env *env, char *addr, int x, int y)
 	return (color);
 }
 
-void	put_color(t_env *env, int color, int pixel)
-{
-	env->addr[pixel + 0] = (color) & 0xFF;
-	env->addr[pixel + 1] = (color >> 8) & 0xFF;
-	env->addr[pixel + 2] = (color >> 16) & 0xFF;
-	env->addr[pixel + 3] = (color >> 24);
-}
-
-void	put_color2(char *addr, int color, int pixel)
+void	put_color(char *addr, int color, int pixel)
 {
 	addr[pixel + 0] = (color) & 0xFF;
 	addr[pixel + 1] = (color >> 8) & 0xFF;
