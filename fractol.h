@@ -19,7 +19,6 @@
 # include <math.h>
 # include <limits.h>
 # define TWOP 6.28318530718
-# define ANTI 2 
 
 typedef struct s_coord
 {
@@ -138,6 +137,7 @@ t_coord		complex_div(t_coord c1, t_coord c2);
 
 int			ft_smoothscroll(t_env *env);
 int			rgba_to_hex(int r, int g, int b, int a);
+int			configure_ssaa(t_env *env, char *s);
 int			mouse_handler(int button, int x, int y, t_env *env);
 int			args_manager(int ac, char **av, t_env *env);
 int			keyboard_handler(int button, t_env *env);

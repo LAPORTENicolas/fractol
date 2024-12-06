@@ -12,6 +12,7 @@
 
 #include "../../fractol.h"
 #include <ctype.h>
+#include <libft.h>
 
 static int	configure_set2(t_env *env, char *s)
 {
@@ -68,4 +69,17 @@ int	configure_set(t_env *env, char *s)
 	ft_putendl_fd("\033[31mType error:\
 	bad name, try ./fractol -t mandelbrot\033[0m", 2);
 	return (-1);
+}
+
+int	configure_ssaa(t_env *env, char *s)
+{
+	int r;
+
+	if (!s)
+		return (-1);
+	r = ft_atoi(s);
+	if (r <= 1)
+		return (-1);
+	env->ssaa_coef = r;
+	return (0);
 }

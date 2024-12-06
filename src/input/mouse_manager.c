@@ -45,7 +45,6 @@ int	ft_smoothscroll(t_env *env)
 	env->plage.y1 = env->zoom.neww.y - dif.y1 * scale;
 	env->plage.y2 = env->zoom.neww.y + dif.y2 * scale;
 	env->size.z /= scale;
-	printf("size->z = %f\n", env->size.z);
 	if (env->zoom.is_zoom)
 		return (1);
 	return (0);
@@ -56,13 +55,13 @@ static void	configure_zoom(t_env *env, int x, int y, t_coord dif)
 	if (env->antialiasing)
 	{
 		env->zoom.neww.x = env->plage.x1 + \
-		(x / ((double)env->size.x / ANTI)) * dif.x;
+		(x / ((double)env->size.x / env->ssaa_coef)) * dif.x;
 		env->zoom.neww.y = env->plage.y1 + \
-		(y / ((double)env->size.y / ANTI)) * dif.y;
+		(y / ((double)env->size.y / env->ssaa_coef)) * dif.y;
 		env->zoom.neww.x = env->plage.x1 + \
-		(x / ((double)env->size.x / ANTI)) * dif.x;
+		(x / ((double)env->size.x / env->ssaa_coef)) * dif.x;
 		env->zoom.neww.y = env->plage.y1 + \
-		(y / ((double)env->size.y / ANTI)) * dif.y;
+		(y / ((double)env->size.y / env->ssaa_coef)) * dif.y;
 		return ;
 	}
 	env->zoom.neww.x = env->plage.x1 + (x / (double)env->size.x) * dif.x;

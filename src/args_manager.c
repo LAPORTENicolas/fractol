@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../fractol.h"
+#include <libft.h>
 #include <stdio.h>
 
 int	no_arg(char **av, t_env *env, int i)
@@ -30,7 +31,7 @@ int	no_arg(char **av, t_env *env, int i)
 		print_help();
 		return (0);
 	}
-	else if (ft_strncmp(av[i], "-anti", ft_strlen("-anti") + 1) == 0)
+	else if (ft_strncmp(av[i], "-ssaa", ft_strlen("-ssaa") + 1) == 0)
 	{
 		env->default_ssaa = 1;
 		env->antialiasing = 1;
@@ -54,6 +55,11 @@ int	one_arg(int ac, char **av, t_env *env, int i)
 	else if (ft_strncmp(av[i], "-l", ft_strlen("-l") + 1) == 0)
 	{
 		if (i + 1 < ac && configure_limit(env, av[++i]) == 0)
+			return (0);
+	}
+	else if (ft_strncmp(av[i], "-x", ft_strlen("-x") + 1) == 0)
+	{
+		if (i + 1 < ac && configure_ssaa(env, av[++i]) == 0)
 			return (0);
 	}
 	return (-1);

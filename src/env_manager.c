@@ -23,6 +23,7 @@ t_env	create_env(void)
 	env.plage.y2 = 2;
 	env.itelimit = 100;
 	env.default_ssaa = 1;
+	env.ssaa_coef = 2;
 	env.z.x = 0.1;
 	env.z.y = 0.7;
 	env.tik = 0.;
@@ -41,12 +42,12 @@ static void	edit_env2(t_env *env, int win)
 	if (env->antialiasing)
 	{
 		if (win)
-			env->size.z = 125 * ANTI;
+			env->size.z = 125 * env->ssaa_coef;
 		env->size.x = (env->plage.x2 - env->plage.x1) * (env->size.z);
 		env->size.y = (env->plage.y2 - env->plage.y1) * (env->size.z);
 		if (win)
-			env->win = mlx_new_window(env->mlx, env->size.x / ANTI, \
-			env->size.y / ANTI, "Fractol");
+			env->win = mlx_new_window(env->mlx, env->size.x / env->ssaa_coef, \
+			env->size.y / env->ssaa_coef, "Fractol");
 	}
 	else
 	{
@@ -65,9 +66,9 @@ t_env	create_from_env(t_env *env)
 	env->antialiasing = !env->antialiasing;
 	env->zoom.is_zoom = 0;
 	if (env->antialiasing)
-		env->size.z *= ANTI;
+		env->size.z *= env->ssaa_coef;
 	else
-		env->size.z /= ANTI;
+		env->size.z /= env->ssaa_coef;
 	edit_env(env, 0);
 	return (*env);
 }
@@ -94,8 +95,8 @@ void	edit_env(t_env *env, int win)
 		env->addr = mlx_get_data_addr(env->img, &env->bits_per_pixel, \
 		&env->line_length, &env->endian);
 
-		env->img_r = mlx_new_image(env->mlx, env->size.x / ANTI, \
-		env->size.y / ANTI);
+		env->img_r = mlx_new_image(env->mlx, env->size.x / env->ssaa_coef, \
+		env->size.y / env->ssaa_coef);
 		env->addr_r = mlx_get_data_addr(env->img_r, &env->bits_per_pixel_r, \
 		&env->line_length_r, &env->endian_r);
 	}

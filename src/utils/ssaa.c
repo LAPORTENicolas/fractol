@@ -22,10 +22,10 @@ int	get_new_color(t_env *env, t_coord a)
 	t = (t_coord){0, 0};
 	color = (t_coord3){0, 0, 0};
 	diviseur = 0;
-	while (t.x < ANTI && t.x + a.x < env->size.x)
+	while (t.x < env->ssaa_coef && t.x + a.x < env->size.x)
 	{
 		t.y = 0;
-		while (t.y < ANTI  && t.y + a.y < env->size.y)
+		while (t.y < env->ssaa_coef  && t.y + a.y < env->size.y)
 		{
 			tmp_color = get_pixel_color(env, env->addr, t.x + a.x, t.y + a.y);
 			color = add_vec3(color, tmp_color);
@@ -56,10 +56,10 @@ void	antialiasing_ssaa(t_env *env)
 			pixel = (litle.y * env->line_length_r) + (litle.x * 4);
 			color = get_new_color(env, big);
 			put_color(env->addr_r, color, pixel);
-			big.y += ANTI;
+			big.y += env->ssaa_coef;
 			litle.y++;
 		}
-		big.x += ANTI;
+		big.x += env->ssaa_coef;
 		litle.x++;
 	}
 }

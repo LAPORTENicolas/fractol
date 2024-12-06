@@ -66,7 +66,7 @@ int	keyboard_handler(int button, t_env *env)
 	else if (button == 97)
 		*env = switch_anti(env);
 	else if (button == 99)
-		save_image_to_bmp(env->img_r, env->mlx, x / ANTI, y / ANTI, "test.bmp");
+		save_image_to_bmp(env->img_r, env->mlx, x / env->ssaa_coef, y / env->ssaa_coef, "test.bmp");
 	render(env);
 	return (0);
 }

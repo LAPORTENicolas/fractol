@@ -29,8 +29,10 @@ julia, burning-ship]\n");
 double] \033[93mONLY FOR JULIA !\033[0m		(default: 0.3 0.5)\n");
 	ft_printf("	-shift		: set color shift enable \
 					(default: disable)\n");
-	ft_printf("	-anti		: set antialiasing enable (only SSAAx2) \
-			(default: disable)\n");
+	ft_printf("	-ssaa		: set antialiasing SSAA enable \
+					(default: disable)\n");
+	ft_printf("	-x		: set antialiasing multuplicator			\
+	(default: 2x)\n");
 	ft_printf("Use:\n");
 	ft_printf("	ZQSD For move\n");
 	ft_printf("	Up arrow: 	increase limit\n");
