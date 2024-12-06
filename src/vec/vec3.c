@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 10:09:21 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/11/29 11:32:15 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:10:00 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ t_coord3	mul_vec3(t_coord3 vec1, t_coord3 vec2)
 	return (new);
 }
 
+t_coord3	div_vec3(t_coord3 vec1, int div)
+{
+	t_coord3	new;
+
+	new.x = vec1.x / div;
+	new.y = vec1.y / div;
+	new.z = vec1.z / div;
+	return (new);
+}
+/*
 t_coord4	sub_vec4(t_coord4 vec1, t_coord4 vec2)
 {
 	t_coord4	new;
@@ -62,4 +72,4 @@ t_coord4	udiv_vec4(t_coord4 vec1, int div)
 	new.y1 = vec1.y1 / div;
 	new.y2 = vec1.y2 / div;
 	return (new);
-}
+}*/

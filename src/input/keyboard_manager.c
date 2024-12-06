@@ -6,11 +6,13 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:14:32 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/04 11:21:26 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:25:41 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fractol.h"
+#include <mlx.h>
+#include <stdio.h>
 
 static void	check_move(int button, t_env *env)
 {
@@ -40,15 +42,29 @@ static void	check_move(int button, t_env *env)
 	}
 }
 
+static t_env	switch_anti(t_env *env)
+{
+	t_env	new;
+
+	new = create_from_env(env);
+	if (env->img)
+		mlx_destroy_image(env->mlx, env->img);
+	if (env->antialiasing)
+		mlx_destroy_image(env->mlx, env->img_r);
+	return (new);
+}
+
 int	keyboard_handler(int button, t_env *env)
 {
 	if (button == 65307)
-		exit(EXIT_SUCCESS);
+		clear_env(env);
 	check_move(button, env);
 	if (button == 65362 && env->itelimit < 3000)
 		env->itelimit += 10;
 	else if (button == 65364 && env->itelimit > 10)
 		env->itelimit -= 10;
+	else if (button == 97)
+		*env = switch_anti(env);
 	render(env);
 	return (0);
 }
