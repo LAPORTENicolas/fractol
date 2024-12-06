@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../fractol.h"
+#include <ctype.h>
 
 static int	configure_set2(t_env *env, char *s)
 {
@@ -34,9 +35,10 @@ static int	configure_set2(t_env *env, char *s)
 
 int	check_z(int ac, char **av, t_env *env, int i)
 {
+	(void)ac;
 	if (ft_strncmp(av[i], "-z", ft_strlen("-z") + 1) == 0)
 	{
-		if (i + 2 >= ac || configure_z(env, av[i + 1], av[i + 2]) == -1)
+		if (configure_z(env, av[i + 1], av[i + 2]) == -1)
 			return (-1);
 		else
 			return (0);

@@ -22,6 +22,7 @@ t_env	create_env(void)
 	env.plage.y1 = -2;
 	env.plage.y2 = 2;
 	env.itelimit = 100;
+	env.default_ssaa = 1;
 	env.z.x = 0.1;
 	env.z.y = 0.7;
 	env.tik = 0.;
@@ -40,9 +41,9 @@ static void	edit_env2(t_env *env, int win)
 	if (env->antialiasing)
 	{
 		if (win)
-			env->size.z = 125;
-		env->size.x = ((env->plage.x2 - env->plage.x1) / 2) * (env->size.z * 2);
-		env->size.y = ((env->plage.y2 - env->plage.y1) / 2) * (env->size.z * 2);
+			env->size.z = 125 * ANTI;
+		env->size.x = (env->plage.x2 - env->plage.x1) * (env->size.z);
+		env->size.y = (env->plage.y2 - env->plage.y1) * (env->size.z);
 		if (win)
 			env->win = mlx_new_window(env->mlx, env->size.x / ANTI, \
 			env->size.y / ANTI, "Fractol");
@@ -61,28 +62,14 @@ static void	edit_env2(t_env *env, int win)
 
 t_env	create_from_env(t_env *env)
 {
-	t_env	new;
-
-	new.plage.x1 = env->plage.x1;
-	new.plage.x2 = env->plage.x2;
-	new.plage.y1 = env->plage.y1;
-	new.plage.y2 = env->plage.y2;
-	new.itelimit = env->itelimit;
-	new.size.z = env->size.z;
-	new.antialiasing = !env->antialiasing;
-	new.z.x = env->z.x;
-	new.z.y = env->z.y;
-	new.tik = env->tik;
-	new.limit = env->limit;
-	new.shift = env->shift;
-	new.zoom.is_zoom = 0;
-	new.pos = new.plage;
-	new.type = env->type;
-	new.palette = env->palette;
-	new.win = env->win;
-	new.mlx = env->mlx;
-	edit_env(&new, 0);
-	return (new);
+	env->antialiasing = !env->antialiasing;
+	env->zoom.is_zoom = 0;
+	if (env->antialiasing)
+		env->size.z *= ANTI;
+	else
+		env->size.z /= ANTI;
+	edit_env(env, 0);
+	return (*env);
 }
 
 void	clear_env(t_env *env)
@@ -100,14 +87,22 @@ void	clear_env(t_env *env)
 void	edit_env(t_env *env, int win)
 {
 	edit_env2(env, win);
-	env->img = mlx_new_image(env->mlx, env->size.x, env->size.y);
-	env->addr = mlx_get_data_addr(env->img, &env->bits_per_pixel, \
-		&env->line_length, &env->endian);
+
 	if (env->antialiasing)
 	{
+		env->img = mlx_new_image(env->mlx, env->size.x, env->size.y);
+		env->addr = mlx_get_data_addr(env->img, &env->bits_per_pixel, \
+		&env->line_length, &env->endian);
+
 		env->img_r = mlx_new_image(env->mlx, env->size.x / ANTI, \
 		env->size.y / ANTI);
 		env->addr_r = mlx_get_data_addr(env->img_r, &env->bits_per_pixel_r, \
 		&env->line_length_r, &env->endian_r);
+	}
+	else
+	{
+		env->img = mlx_new_image(env->mlx, env->size.x, env->size.y);
+		env->addr = mlx_get_data_addr(env->img, &env->bits_per_pixel, \
+		&env->line_length, &env->endian);
 	}
 }

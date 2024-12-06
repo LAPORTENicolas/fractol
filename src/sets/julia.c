@@ -12,30 +12,34 @@
 
 #include "../../fractol.h"
 #define TWOP 6.28318530718
+#include <stdio.h>
 //c = init_vec2(0.3, 0.5);
 //c = init_vec2(-1.417022285618,  0.0099534);
 //c = init_vec2(–0.038088, 0.97);
 //c = init_vec2(-0.8, 0.15);
 //c = init_vec2(-0.4, 0.6);
-static int	julia_logic(t_env *env, t_coord act)
+static t_coord3	julia_logic(t_env *env, t_coord act)
 {
+	t_coord3	i;
 	t_coord		c;
 	t_coord		z;
 	double		tmp;
-	int			i;
 
 	(void) act;
 	c = init_vec2(env->z.x, env->z.y);
+	//printf("c.x = %f c.y = %f\n", env->z.x, env->z.y);
 	z = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
-	i = 0;
-	while (z.x * z.x + z.y * z.y < env->limit && i < env->itelimit)
+	i.x = 0;
+	while (z.x * z.x + z.y * z.y < env->limit && i.x < env->itelimit)
 	{
 		tmp = z.x;
 		z.x = z.x * z.x - z.y * z.y + c.x;
 		z.y = 2 * z.y * tmp + c.y;
-		i++;
+		i.x++;
 	}
+	i.y = z.x * z.x + z.y + z.y;
+	i.z = z.x * z.x + z.y * z.y;
 	return (i);
 }
 
@@ -64,20 +68,12 @@ int	anime_julia(t_env *env)
 
 void	julia(t_env *env, t_coord act)
 {
-	t_coord3	tmp_col;
+	t_coord3	i;
 	int			color;
-	int			i;
 
 	i = julia_logic(env, act);
-	if (i != env->itelimit)
-	{
-		if (env->shift)
-			tmp_col = env->palette((i + env->tik) / env->itelimit);
-		else
-			tmp_col = env->palette((double)i / env->itelimit);
-		color = rgba_to_hex(tmp_col.x * 255, tmp_col.y * 255, \
-		tmp_col.z * 255, 255);
-	}
+	if (i.x != env->itelimit)
+		color = gen_color(env, i);
 	else
 		color = rgba_to_hex(0, 0, 0, 0);
 	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));

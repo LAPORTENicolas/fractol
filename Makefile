@@ -7,7 +7,7 @@ SOURCES			= main.c \
 							src/input/keyboard_manager.c src/input/mouse_manager.c \
 							src/sets/mandelbrot.c src/sets/julia.c src/sets/burning_ship.c src/sets/buddhabrot.c \
 							src/sets/nova.c src/sets/newton.c \
-							src/args_manager.c
+							src/args_manager.c export.c
 OBJECTS     = ${SOURCES:.c=.o}
 NAME        = fractol
 CC          = cc

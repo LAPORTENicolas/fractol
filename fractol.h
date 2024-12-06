@@ -15,10 +15,11 @@
 
 # include <mlx.h>
 # include <libft.h>
+# include <stdio.h>
 # include <math.h>
 # include <limits.h>
 # define TWOP 6.28318530718
-# define ANTI 2
+# define ANTI 2 
 
 typedef struct s_coord
 {
@@ -75,6 +76,7 @@ typedef struct s_env
 	char		*addr;
 	char		*addr_r;
 	int			itelimit;
+	int			default_ssaa;
 	int			limit;
 	int			bits_per_pixel;
 	int			bits_per_pixel_r;
@@ -89,9 +91,12 @@ typedef struct s_env
 	int			ac;
 	int			mouse_x;
 	int			mouse_y;
+	int			ssaa_coef;
 	double		camscale;
 	double		tik;
 }				t_env;
+
+void	save_image_to_bmp(void *img, void *mlx, int width, int height, char *filename);
 
 t_env	create_from_env(t_env *env);
 

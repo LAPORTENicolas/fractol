@@ -45,6 +45,7 @@ int	ft_smoothscroll(t_env *env)
 	env->plage.y1 = env->zoom.neww.y - dif.y1 * scale;
 	env->plage.y2 = env->zoom.neww.y + dif.y2 * scale;
 	env->size.z /= scale;
+	printf("size->z = %f\n", env->size.z);
 	if (env->zoom.is_zoom)
 		return (1);
 	return (0);
@@ -80,8 +81,11 @@ int	mouse_handler(int button, int x, int y, t_env *env)
 	scale = get_scale(button);
 	if (scale == -1)
 		return (0);
-	env->zoom.target = env->size.z / scale;
-	env->zoom.step = (env->zoom.target - env->zoom.act) / 5.;
+	if (env->antialiasing)
+		env->zoom.target = env->size.z / scale;
+	else
+		env->zoom.target = env->size.z / scale;
+	env->zoom.step = (env->zoom.target - env->zoom.act) / 6.;
 	configure_zoom(env, x, y, dif);
 	env->zoom.is_zoom = 1;
 	return (0);

@@ -44,18 +44,18 @@ static void	check_move(int button, t_env *env)
 
 static t_env	switch_anti(t_env *env)
 {
-	t_env	new;
-
-	new = create_from_env(env);
 	if (env->img)
 		mlx_destroy_image(env->mlx, env->img);
 	if (env->antialiasing)
 		mlx_destroy_image(env->mlx, env->img_r);
-	return (new);
+	*env = create_from_env(env);
+	return (*env);
 }
 
 int	keyboard_handler(int button, t_env *env)
 {
+	int x = (env->plage.x2 - env->plage.x1) * env->size.z;
+	int y = (env->plage.y2 - env->plage.y1) * env->size.z;
 	if (button == 65307)
 		clear_env(env);
 	check_move(button, env);
@@ -65,6 +65,8 @@ int	keyboard_handler(int button, t_env *env)
 		env->itelimit -= 10;
 	else if (button == 97)
 		*env = switch_anti(env);
+	else if (button == 99)
+		save_image_to_bmp(env->img_r, env->mlx, x / ANTI, y / ANTI, "test.bmp");
 	render(env);
 	return (0);
 }

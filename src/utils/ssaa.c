@@ -25,7 +25,7 @@ int	get_new_color(t_env *env, t_coord a)
 	while (t.x < ANTI && t.x + a.x < env->size.x)
 	{
 		t.y = 0;
-		while (t.y < ANTI + 1 && t.y + a.y < env->size.y)
+		while (t.y < ANTI  && t.y + a.y < env->size.y)
 		{
 			tmp_color = get_pixel_color(env, env->addr, t.x + a.x, t.y + a.y);
 			color = add_vec3(color, tmp_color);

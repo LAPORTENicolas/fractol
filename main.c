@@ -13,11 +13,10 @@
 #include "fractol.h"
 #include <libft.h>
 #include <mlx.h>
-#include <stdio.h>
 
 int	loop_hook(t_env *env)
 {
-	if (env->zoom.is_zoom)
+	if (env->zoom.is_zoom && !(!env->default_ssaa && env->antialiasing))
 		ft_smoothscroll(env);
 	render(env);
 	return (0);
@@ -27,6 +26,7 @@ void	render(t_env *env)
 {
 	t_coord	act;
 
+	act.x = 0;
 	while (act.x < env->size.x)
 	{
 		act.y = 0;
@@ -59,6 +59,7 @@ int	main(int ac, char **av)
 		return (-1);
 	edit_env(&env, 1);
 	render(&env);
+
 	mlx_hook(env.win, 4, 1L << 2, mouse_handler, &env);
 	mlx_hook(env.win, 2, 5, keyboard_handler, &env);
 	mlx_loop_hook(env.mlx, loop_hook, &env);

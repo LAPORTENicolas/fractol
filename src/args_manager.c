@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../fractol.h"
+#include <stdio.h>
 
 int	no_arg(char **av, t_env *env, int i)
 {
@@ -31,6 +32,7 @@ int	no_arg(char **av, t_env *env, int i)
 	}
 	else if (ft_strncmp(av[i], "-anti", ft_strlen("-anti") + 1) == 0)
 	{
+		env->default_ssaa = 1;
 		env->antialiasing = 1;
 		return (0);
 	}
@@ -41,20 +43,20 @@ int	one_arg(int ac, char **av, t_env *env, int i)
 {
 	if (ft_strncmp(av[i], "-itel", ft_strlen("-itel") + 1) == 0)
 	{
-		if (i + 1 >= ac || configure_itelimit(env, av[++i]) == -1)
-			return (-1);
+		if (i + 1 < ac && configure_itelimit(env, av[++i]) == 0)
+			return (0);
 	}
 	else if (ft_strncmp(av[i], "-c", ft_strlen("-c") + 1) == 0)
 	{
-		if (i + 1 >= ac || configure_color(env, av[++i]) == -1)
-			return (-1);
+		if (i + 1 < ac && configure_color(env, av[++i]) == 0)
+			return (0);
 	}
 	else if (ft_strncmp(av[i], "-l", ft_strlen("-l") + 1) == 0)
 	{
-		if (i + 1 >= ac || configure_limit(env, av[++i]) == -1)
-			return (-1);
+		if (i + 1 < ac && configure_limit(env, av[++i]) == 0)
+			return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int	check_type(char **av, t_env *env, int i)
@@ -78,12 +80,12 @@ int	get_arg_val(int ac, char **av, t_env *env)
 			status = check_type(av, env, i + 1);
 			i += 2;
 		}
-		else if (no_arg(av, env, i) == 0)
-			i++;
-		else if (one_arg(ac, av, env, i) == 0)
-			i += 2;
 		else if (check_z(ac, av, env, i) == 0)
 			i += 3;
+		else if (one_arg(ac, av, env, i) == 0)
+			i += 2;
+		else if (no_arg(av, env, i) == 0)
+			i++;
 		else
 			return (-1);
 	}
