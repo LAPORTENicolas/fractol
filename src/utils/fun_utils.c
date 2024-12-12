@@ -6,22 +6,39 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:51:14 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/06 12:57:49 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:40:49 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fractol.h"
+
+static int	get_sign(char **s)
+{
+	char	c;
+
+	if (!s || !*s || !*(*s))
+		return (1);
+	c = *(*s);
+	if (c == '-')
+	{
+		*(s) += 1;
+		return (-1);
+	}
+	return (1);
+}
 
 double	ft_atof(char *s)
 {
 	double	atof;
 	double	tmp;
 	int		i;
+	int		sign;
 
 	i = 10;
 	atof = 0;
 	if (s == NULL)
 		return (0.);
+	sign = get_sign(&s);
 	if (ft_isdigit(*s))
 		atof += *s++ - '0';
 	else
@@ -34,7 +51,7 @@ double	ft_atof(char *s)
 		atof += tmp;
 		i *= 10;
 	}
-	return (atof);
+	return (atof * sign);
 }
 
 double	ft_length(t_coord x)
@@ -47,4 +64,19 @@ double	ft_min(double x, double y)
 	if (x < y)
 		return (x);
 	return (y);
+}
+
+void	free_buddha(t_env *env, t_coord3 **map)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->size.x - 1)
+	{
+		ft_printf("i = %i/n", i);
+		if (map[i])
+			free(map[i]);
+		i++;
+	}
+	free(map);
 }

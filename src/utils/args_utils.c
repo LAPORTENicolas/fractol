@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:11:04 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/04 12:12:29 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:13:38 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,30 @@ void	print_help(void)
 	ft_printf("Options:\n");
 	ft_printf("	-h		: print all commands\n");
 	ft_printf("	-t		: set type		[mandelbrot, \
-julia, burning-ship]\n");
+julia, burning-s, newton, nova, \033[31mbuddhabrot\033[0m]\n");
 	ft_printf("	-itel		: set iterationn limit \
- [1 - 1000]				(default: 100)\n");
+ [1 - 3000]				(default: 100)\n");
 	ft_printf("	-l		: set limit 		[2 - 10]\
 				(default: 3)\n");
 	ft_printf("	-c		: set color palette 	[1 \
-- 5]					(default: 1)\n");
-	ft_printf("	-z		: set complex number 	[double\
-double] \033[93mONLY FOR JULIA !\033[0m		(default: 0.3 0.5)\n");
+- 6]					(default: 1)\n");
+	ft_printf("	-z		: set complex number 	[double \
+double] \033[93mONLY FOR JULIA !\033[0m	(default: 0.3 0.5)\n");
 	ft_printf("	-shift		: set color shift enable \
 					(default: disable)\n");
-	ft_printf("	-ssaa		: set antialiasing SSAA enable \
-					(default: disable)\n");
+	ft_printf("	-size		: set window size \
+						(default: 150 * 150)\n");
+	ft_printf("	-debug		: Print log \
+							(default: disable)\n");
 	ft_printf("	-x		: set antialiasing multuplicator			\
 	(default: 2x)\n");
 	ft_printf("Use:\n");
-	ft_printf("	ZQSD For move\n");
-	ft_printf("	Up arrow: 	increase limit\n");
-	ft_printf("	Down Arrow: 	decrease limit\n");
+	ft_printf("	ZQSD: 		For move\n");
+	ft_printf("	A: 		Enable SSAA. (Fixe cam pos)\n");
+	ft_printf("	C: 		Screen shot (only with antialiasing)\
+, in root directory\n");
+	ft_printf("	Down Arrow: 	decrease iteration limit\n");
+	ft_printf("	Up arrow: 	increase iteration limit\n");
 }
 
 int	configure_itelimit(t_env *env, char *s)
@@ -46,10 +51,16 @@ int	configure_itelimit(t_env *env, char *s)
 	if (s == NULL)
 		return (-1);
 	limit = ft_atoi(s);
-	if (limit <= 0 || limit >= 10000)
+	if ((limit <= 0 || limit >= 3001) && !env->buddhatakecontrol)
 	{
 		ft_putendl_fd("\033[31mIteration limit error:\
-		bad value, try ./fractol -l [1 - 9999]\033[0m", 2);
+		bad value, try ./fractol -l [1 - 3000]\033[0m", 2);
+		return (-1);
+	}
+	else if ((limit <= 200 || limit >= 2000000) && env->buddharender)
+	{
+		ft_putendl_fd("\033[31mIteration limit error:\
+		bad value, try ./fractol -l [1 - 3000]\033[0m", 2);
 		return (-1);
 	}
 	env->itelimit = limit;
@@ -78,7 +89,7 @@ int	configure_color(t_env *env, char *s)
 	int	pal;
 
 	pal = atoi(s);
-	if (pal <= 0 || pal >= 8)
+	if (pal <= 0 || pal >= 7)
 		return (-1);
 	else if (pal == 1)
 		env->palette = palette;
@@ -92,8 +103,6 @@ int	configure_color(t_env *env, char *s)
 		env->palette = palette5;
 	else if (pal == 6)
 		env->palette = palette6;
-	else if (pal == 7)
-		env->palette = palette7;
 	return (0);
 }
 

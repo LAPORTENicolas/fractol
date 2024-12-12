@@ -1,91 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nova.c                                             :+:      :+:    :+:   */
+/*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:09:40 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/06 13:10:09 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:16:57 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fractol.h"
-#include <math.h>
 
-static t_coord complex_pow(t_coord nb, double power)
+static t_coord	nova_logic(t_env *env, t_coord act, double tmp, double tmp2)
 {
-    double r = sqrt(nb.x * nb.x + nb.y * nb.y);  // Calcul du module (|z|)
-    double theta = atan2(nb.y, nb.x);  // Calcul de l'argument (l'angle) de z
-    
-    // Calcul de la nouvelle magnitude (module) : r^power
-    double r_new = pow(r, power);
-    
-    // Calcul du nouvel argument (angle) : power * theta
-    double theta_new = power * theta;
-    
-    // Conversion en coordonnées cartésiennes
-    t_coord result;
-    result.x = r_new * cos(theta_new);  // Partie réelle
-    result.y = r_new * sin(theta_new);  // Partie imaginaire
+	t_coord	i;
+	t_coord	c;
+	t_coord	z;
+	t_coord	z3;
 
-    return result;
+	c = init_vec2(act.x / env->size.z + env->plage.x1, \
+	act.y / env->size.z + env->plage.y1);
+	z = (t_coord){1., 0};
+	i.x = 0;
+	while (i.x < env->itelimit)
+	{
+		tmp = z.x;
+		tmp2 = z.y;
+		z3 = complex_mul(complex_mul(z, z), z);
+		z3.x--;
+		z = complex_add(complex_subtract(z, complex_div(z3, \
+		complex_mul(complex_mul(z, z), (t_coord){3, 0}))), c);
+		if (((z.x - tmp) * (z.x - tmp) + (z.y - tmp2) * (z.y - tmp2)) < 0.01)
+			break ;
+		i.x++;
+	}
+	return (i);
 }
-void nova_logic(t_env *env, t_coord act)
+
+void	nova(t_env *env, t_coord act)
 {
-    t_coord c;
-    t_coord z;
-    int i;
-    int color;
-    t_coord p1 = {1.0, 0.0};
-    t_coord p2 = {-.5, .866};
-    t_coord p3 = {-.5, -.866};
-    double limit = 0.1;
-    double R = 0.5;
-    double p = 3.0;
-    t_coord decalage = {.1, .2};
+	t_coord		i;
+	t_coord3	color2;
+	int			color;
 
-    i = 0;
-    c = init_vec2(act.x / env->size.z + env->plage.x1, act.y / env->size.z + env->plage.y1);
-    z = init_vec2(0, 0);  // Initialisation de z
-
-    double d_1 = ft_length(complex_subtract(c, p1));
-    double d_2 = ft_length(complex_subtract(c, p2));
-    double d_3 = ft_length(complex_subtract(c, p3));
-    double d_min = ft_min(d_1, ft_min(d_2, d_3));
-
-    while (d_min > limit && i < env->itelimit)
-    {
-        // Calcul de f et f' pour la fractale Nova
-        t_coord f = complex_subtract(complex_pow(z, p), init_vec2(1.0, 0.0));
-        t_coord f_prime = complex_mul((t_coord){p, 0}, complex_pow(z, p - 1));
-
-        // Mise à jour de z avec la méthode de Newton
-        z = complex_subtract(z, complex_mul((t_coord){R, 0}, complex_div(f, f_prime)));
-        z = complex_add(z, decalage);
-
-        // Calcul des nouvelles distances
-        d_1 = ft_length(complex_subtract(c, p1));
-        d_2 = ft_length(complex_subtract(c, p2));
-        d_3 = ft_length(complex_subtract(c, p3));
-        d_min = ft_min(d_1, ft_min(d_2, d_3));
-        i++;
-    }
-
-    // Détermination de la couleur en fonction de l'itération
-    if (i != env->itelimit)
-    {
-        color = rgba_to_hex(i * exp(-i / 10), (i * 2) % 255, (i * 3) % 255, 255);
-    }
-    else
-    {
-        color = rgba_to_hex(0, 0, 0, 255); // Changer la couleur noire opaque pour éviter la transparence
-    }
-
-    // Application de la couleur
-    put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
-}void	nova(t_env *env, t_coord act)
-{
-	nova_logic(env, act);
-	return ;
+	i = nova_logic(env, act, 0, 0);
+	if (i.x != env->itelimit)
+	{
+		color2 = env->palette(i.x / env->itelimit);
+		color = rgba_to_hex(color2.x * 255, \
+		color2.y * 255, color2.z * 255, 255);
+	}
+	else
+		color = rgba_to_hex(0, 0, 0, 0);
+	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
 }

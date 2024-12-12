@@ -6,24 +6,23 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:15:48 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/06 13:38:15 by nlaporte         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:46:25 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fractol.h"
-#include <ctype.h>
 #include <libft.h>
 
 static int	configure_set2(t_env *env, char *s)
 {
 	if (s && ft_strncmp(s, "buddhabrot", ft_strlen("buddhabrot") + 1) == 0)
 	{
-		env->type = buddhabrot;
-		return (0);
-	}
-	else if (s && ft_strncmp(s, "nova", ft_strlen("nova") + 1) == 0)
-	{
-		env->type = nova;
+		env->buddhatakecontrol = 1;
+		env->buddharender = 1;
+		env->plage.x1 = -2.1;
+		env->plage.x2 = 0.6;
+		env->plage.y1 = -1.2;
+		env->plage.y2 = 1.2;
 		return (0);
 	}
 	else if (s && ft_strncmp(s, "newton", ft_strlen("newton") + 1) == 0)
@@ -59,6 +58,11 @@ int	configure_set(t_env *env, char *s)
 		env->type = julia;
 		return (0);
 	}
+	else if (s && ft_strncmp(s, "nova", ft_strlen("nova") + 1) == 0)
+	{
+		env->type = nova;
+		return (0);
+	}
 	else if (s && ft_strncmp(s, "burning-s", ft_strlen("burning-s") + 1) == 0)
 	{
 		env->type = burning_ship;
@@ -66,14 +70,19 @@ int	configure_set(t_env *env, char *s)
 	}
 	else if (configure_set2(env, s) == 0)
 		return (0);
-	ft_putendl_fd("\033[31mType error:\
-	bad name, try ./fractol -t mandelbrot\033[0m", 2);
+	return (-1);
+}
+
+int	check_type(char **av, t_env *env, int i)
+{
+	if (configure_set(env, av[i]) != -1)
+		return (0);
 	return (-1);
 }
 
 int	configure_ssaa(t_env *env, char *s)
 {
-	int r;
+	int	r;
 
 	if (!s)
 		return (-1);

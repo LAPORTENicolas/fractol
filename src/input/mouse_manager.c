@@ -27,7 +27,7 @@ int	ft_smoothscroll(t_env *env)
 	double		scale;
 	t_coord4	dif;
 
-	dif = (t_coord4){env->zoom.neww.x - env->plage.x1, \
+	dif = (t_coord4){env->zoom.neww.x - env->plage.x1,
 		env->plage.x2 - env->zoom.neww.x, env->zoom.neww.y - env->plage.y1,
 		env->plage.y2 - env->zoom.neww.y};
 	if (env->zoom.is_zoom == 0)
@@ -45,8 +45,6 @@ int	ft_smoothscroll(t_env *env)
 	env->plage.y1 = env->zoom.neww.y - dif.y1 * scale;
 	env->plage.y2 = env->zoom.neww.y + dif.y2 * scale;
 	env->size.z /= scale;
-	if (env->zoom.is_zoom)
-		return (1);
 	return (0);
 }
 
@@ -75,6 +73,8 @@ int	mouse_handler(int button, int x, int y, t_env *env)
 	double	scale;
 	t_coord	dif;
 
+	if (env->buddhatakecontrol)
+		return (0);
 	dif = (t_coord){env->plage.x2 - env->plage.x1, \
 	env->plage.y2 - env->plage.y1};
 	scale = get_scale(button);

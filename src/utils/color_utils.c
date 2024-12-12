@@ -33,18 +33,25 @@ int	rgba_to_hex(int r, int g, int b, int a)
 	return ((a << 24) | (r << 16) | (g << 8) | b);
 }
 
-int	gen_color(t_env *env, t_coord3 i)
+int	gen_color(t_env *env, t_coord i)
 {
 	t_coord3	pal;
 	double		logg;
 	double		smooth;
 
-	logg = log(i.z) / 2.0;
-	if (env->shift)
-		smooth = (i.x + 1 + env->tik) - log(logg) / log(2.0);
+	if (i.x != env->itelimit)
+	{
+		logg = log(i.y) / 2.0;
+		if (env->shift)
+			smooth = (((int)i.x % 255) + 1 + env->tik) - log(logg) / log(2.0);
+		else
+			smooth = ((int)i.x % 255) - log(logg) / log(2.0);
+		pal = env->palette(smooth / 255);
+	}
 	else
-		smooth = i.x + 1 - log(logg) / log(2.0);
-	pal = env->palette(smooth / (double)env->itelimit);
+	{
+		printf("rgba to hex: %i/n", rgba_to_hex(0, 0, 0, 255));
+	}
 	return (rgba_to_hex(pal.x * 255, pal.y * 255, pal.z * 255, 255));
 }
 

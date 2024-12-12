@@ -12,12 +12,12 @@
 
 #include "../../fractol.h"
 
-static t_coord3	burning_ship_logic(t_env *env, t_coord act)
+static t_coord	burning_ship_logic(t_env *env, t_coord act)
 {
-	t_coord3	i;
-	t_coord		c;
-	t_coord		z;
-	double		tmp;
+	t_coord	i;
+	t_coord	c;
+	t_coord	z;
+	double	tmp;
 
 	c = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
@@ -32,15 +32,14 @@ static t_coord3	burning_ship_logic(t_env *env, t_coord act)
 		z.y = 2 * z.y * tmp + c.y;
 		i.x++;
 	}
-	i.y = z.x * z.x + z.y + z.y;
-	i.z = z.x * z.x + z.y * z.y;
+	i.y = z.x * z.x + z.y * z.y;
 	return (i);
 }
 
 void	burning_ship(t_env *env, t_coord act)
 {
-	t_coord3		i;
-	int			color;
+	t_coord	i;
+	int		color;
 
 	i = burning_ship_logic(env, act);
 	if (i.x != env->itelimit)

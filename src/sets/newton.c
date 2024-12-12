@@ -44,7 +44,7 @@ static int	newton_logic2(t_env *env, t_n_point p, t_coord *c, t_coord4 *d)
 	i = 0;
 	denom = (t_coord){0, 0};
 	z = (t_coord){0, 0};
-	while (d->y2 > 0.001 && i < env->itelimit)
+	while (d->y2 > 0.01 && i < env->itelimit)
 	{
 		z = complex_mul(complex_subtract(*c, p.p1), \
 		complex_mul(complex_subtract(*c, p.p2), complex_subtract(*c, p.p3)));
