@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:49:43 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/11 18:36:10 by nlaporte         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:41:35 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_env
 	int			endian;
 	int			endian_r;
 	int			shift;
+	int			fractalid;
+	int			paletteid;
 	int			cam;
 	int			julia_anim;
 	int			antialiasing;
@@ -141,6 +143,7 @@ void		newton(t_env *env, t_coord act);
 void		nova(t_env *env, t_coord act);
 void		free_buddha(t_env *env, t_coord3 **map);
 void		julia(t_env *env, t_coord act);
+void		optional_keys2(int button, t_env *env);
 int			anime_julia(t_env *env);
 void		init_anime_julia(t_env *env);
 void		print_help(void);

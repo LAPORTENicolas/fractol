@@ -36,12 +36,10 @@ double] \033[93mONLY FOR JULIA !\033[0m	(default: 0.3 0.5)\n");
 	ft_printf("	-x		: set antialiasing multuplicator			\
 	(default: 2x)\n");
 	ft_printf("Use:\n");
-	ft_printf("	ZQSD: 		For move\n");
-	ft_printf("	A: 		Enable SSAA. (Fixe cam pos)\n");
-	ft_printf("	C: 		Screen shot (only with antialiasing)\
-, in root directory\n");
-	ft_printf("	Down Arrow: 	decrease iteration limit\n");
-	ft_printf("	Up arrow: 	increase iteration limit\n");
+	ft_printf("	ZQSD 		: For move\n");
+	ft_printf("	Q 		: Enable SSAA. (Fixe cam pos)\n");
+	ft_printf("	U	 	: decrease iteration limit\n");
+	ft_printf("	Y		: increase iteration limit\n");
 }
 
 int	configure_itelimit(t_env *env, char *s)
@@ -103,6 +101,7 @@ int	configure_color(t_env *env, char *s)
 		env->palette = palette5;
 	else if (pal == 6)
 		env->palette = palette6;
+	env->paletteid = pal;
 	return (0);
 }
 

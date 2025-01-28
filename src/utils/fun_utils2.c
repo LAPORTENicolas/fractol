@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:34:40 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/11 18:35:41 by nlaporte         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:39:23 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_env	create_env(void)
 	env.pos = env.plage;
 	env.type = NULL;
 	env.palette = palette;
+	env.paletteid = 1;
 	return (env);
 }
 

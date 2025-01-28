@@ -59,7 +59,6 @@ void	render_buddha(t_env *env)
 			buddhabrot(env, act, tmp_map);
 			act.y++;
 		}
-		printf("Buddha %f%%\n", (act.x / env->size.x) * 100);
 		act.x++;
 	}
 	env->tik++;

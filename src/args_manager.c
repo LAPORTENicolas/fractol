@@ -12,7 +12,6 @@
 
 #include "../fractol.h"
 #include <libft.h>
-#include <stdio.h>
 
 int	no_arg(char **av, t_env *env, int i)
 {

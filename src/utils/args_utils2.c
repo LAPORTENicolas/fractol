@@ -28,6 +28,7 @@ static int	configure_set2(t_env *env, char *s)
 	else if (s && ft_strncmp(s, "newton", ft_strlen("newton") + 1) == 0)
 	{
 		env->type = newton;
+		env->fractalid = 4;
 		return (0);
 	}
 	return (-1);
@@ -51,26 +52,28 @@ int	configure_set(t_env *env, char *s)
 	if (s && ft_strncmp(s, "mandelbrot", ft_strlen("mandelbrot") + 1) == 0)
 	{
 		env->type = mandelbrot;
-		return (0);
+		env->fractalid = 1;
 	}
 	else if (s && ft_strncmp(s, "julia", ft_strlen("julia") + 1) == 0)
 	{
 		env->type = julia;
-		return (0);
+		env->fractalid = 2;
 	}
 	else if (s && ft_strncmp(s, "nova", ft_strlen("nova") + 1) == 0)
 	{
 		env->type = nova;
-		return (0);
+		env->fractalid = 5;
 	}
 	else if (s && ft_strncmp(s, "burning-s", ft_strlen("burning-s") + 1) == 0)
 	{
 		env->type = burning_ship;
-		return (0);
+		env->fractalid = 3;
 	}
 	else if (configure_set2(env, s) == 0)
 		return (0);
-	return (-1);
+	else
+		return (-1);
+	return (0);
 }
 
 int	check_type(char **av, t_env *env, int i)

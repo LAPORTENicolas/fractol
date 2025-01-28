@@ -12,7 +12,6 @@
 
 #include "../../fractol.h"
 #include <libft.h>
-#include <stdio.h>
 
 t_coord3	**get_tmp_map(int x, int y)
 {
