@@ -14,21 +14,51 @@ OBJECTS     = ${SOURCES:.c=.o}
 NAME        = fractol
 CC          = cc
 FLAGS       = -Wall -Werror -Wextra
+LIBFT				= libft/
+MLX					= mlx/
 
-all: ${NAME}
+all: mlx libft ${NAME}
 
 ${NAME}: ${OBJECTS}
-	${CC} ${OBJECTS} -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Lft -lft -Ift -o ${NAME}
+	${CC} ${OBJECTS} -Lft -lft -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz -Lft -lft -Ift -o ${NAME}
 
 %.o: %.c
-	${CC} ${FLAGS} -I/usr/include -Imlx_linux -O3 -Ift -g3 -c $< -o $@
+	${CC} ${FLAGS} -Ift -Imlx -O3 -Ift -g3 -c $< -o $@
+
+libft:
+	@if [ -d "${LIBFT}" ]; then \
+		cd libft && git pull; \
+	else \
+		git clone https://github.com/LAPORTENicolas/libft.git libft; \
+	fi
+	${MAKE} -C ${LIBFT}
+
+mlx:
+	@if [ -d "${MLX}" ]; then \
+		cd libft && git pull; \
+	else \
+		wget https://cdn.intra.42.fr/document/document/28246/minilibx-linux.tgz; \
+		tar -xvsf minilibx-linux.tgz; \
+		rm minilibx-linux.tgz; \
+		mv minilibx-linux mlx; \
+	fi
+	${MAKE} -C ${MLX}
 
 clean:
 	rm -rf ${OBJECTS}
+	${MAKE} -C ${LIBFT} clean
+	${MAKE} -C ${MLX} clean
 
 fclean: clean
 	rm -rf ${NAME}
+	${MAKE} -C ${LIBFT} fclean
+	${MAKE} -C ${MLX} clean
+
+reset:
+	rm -rf libft/
+	rm -rf mlx/
+	rm -rf ${OBJECTS}
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

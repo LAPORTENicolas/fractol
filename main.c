@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <libft.h>
 
 void	render_buddha(t_env *env);
 

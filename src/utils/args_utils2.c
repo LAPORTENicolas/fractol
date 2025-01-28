@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../fractol.h"
-#include <libft.h>
 
 static int	configure_set2(t_env *env, char *s)
 {
