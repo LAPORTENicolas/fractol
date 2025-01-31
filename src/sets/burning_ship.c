@@ -36,7 +36,7 @@ static t_coord	burning_ship_logic(t_env *env, t_coord act)
 	return (i);
 }
 
-void	burning_ship(t_env *env, t_coord act)
+void	*burning_ship(t_env *env, t_coord act)
 {
 	t_coord	i;
 	int		color;
@@ -47,4 +47,5 @@ void	burning_ship(t_env *env, t_coord act)
 	else
 		color = rgba_to_hex(0, 0, 0, 0);
 	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
+	return NULL;
 }

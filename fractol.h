@@ -16,9 +16,13 @@
 # include "mlx/mlx.h"
 # include "libft/libft.h"
 # include <stdio.h>
+# include <sys/time.h>
 # include <math.h>
 # include <limits.h>
 # define TWOP 6.28318530718
+# define BLOCK_SIZE 20
+# define BLOCK_SIZE_SSAA 100
+# define PROC 20000
 
 typedef struct s_coord
 {
@@ -75,7 +79,7 @@ typedef struct s_buddha
 
 typedef struct s_env
 {
-	void		(*type)(struct s_env*, t_coord);
+	void		*(*type)(struct s_env*, t_coord);
 	t_coord		julia_target;
 	t_coord		z;
 	t_coord3	size;
@@ -117,6 +121,17 @@ typedef struct s_env
 	double		tik;
 }				t_env;
 
+typedef struct s_argF {
+	t_env env;
+	t_coord act;
+}				t_argF;
+
+typedef struct s_argS {
+	t_env env;
+	t_coord litle;
+	t_coord big;
+}				t_argS;
+
 void		screen_shot(t_env *env, void *img, int width, int height);
 
 t_env		create_from_env(t_env *env);
@@ -136,13 +151,14 @@ t_coord3	get_pixel_color(t_env *env, char *addr, int x, int y);
 
 void		render(t_env *env);
 void		print_buddha(t_env *env);
-void		mandelbrot(t_env *env, t_coord act);
+//void		*mandelbrot(void *arg);
+void		*mandelbrot(t_env *env, t_coord act);
 void		buddhabrot(t_env *env, t_coord act, t_coord3 **tmp_map);
-void		burning_ship(t_env *env, t_coord act);
-void		newton(t_env *env, t_coord act);
-void		nova(t_env *env, t_coord act);
+void		*burning_ship(t_env *env, t_coord act);
+void		*newton(t_env *env, t_coord act);
+void		*nova(t_env *env, t_coord act);
 void		free_buddha(t_env *env, t_coord3 **map);
-void		julia(t_env *env, t_coord act);
+void		*julia(t_env *env, t_coord act);
 void		optional_keys2(int button, t_env *env);
 int			anime_julia(t_env *env);
 void		init_anime_julia(t_env *env);

@@ -63,7 +63,7 @@ int	anime_julia(t_env *env)
 	return (1);
 }
 
-void	julia(t_env *env, t_coord act)
+void	*julia(t_env *env, t_coord act)
 {
 	t_coord	i;
 	int		color;
@@ -74,4 +74,5 @@ void	julia(t_env *env, t_coord act)
 	else
 		color = rgba_to_hex(0, 0, 0, 0);
 	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
+	return NULL;
 }

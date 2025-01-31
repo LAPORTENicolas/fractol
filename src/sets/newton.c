@@ -78,7 +78,7 @@ static t_coord4	newton_logic(t_env *env, t_coord act)
 	return ((t_coord4){i, d.x1, d.x2, d.y1});
 }
 
-void	newton(t_env *env, t_coord act)
+void	*newton(t_env *env, t_coord act)
 {
 	t_coord4	res;
 	int			color;
@@ -93,5 +93,5 @@ void	newton(t_env *env, t_coord act)
 	else
 		color = rgba_to_hex(0, 0, 255, 255);
 	put_color(env->addr, color, (act.y * env->line_length) + (act.x * 4));
-	return ;
+	return NULL;
 }

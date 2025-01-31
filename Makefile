@@ -12,18 +12,18 @@ SOURCES			= main.c \
 							src/utils/keyboard_utils.c
 OBJECTS     = ${SOURCES:.c=.o}
 NAME        = fractol
-CC          = cc
-FLAGS       = -Wall -Werror -Wextra
+CC          = gcc
+FLAGS       = -Wall -Werror -Wextra -march=native 
 LIBFT				= libft/
 MLX					= mlx/
 
 all: mlx libft ${NAME}
 
 ${NAME}: ${OBJECTS}
-	${CC} ${OBJECTS} -Lft -lft -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz -Lft -lft -Ift -o ${NAME}
+	${CC} -fopenmp ${OBJECTS} -fopenmp -Lft -lft -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz -Lft -lft -Ift -o ${NAME}
 
 %.o: %.c
-	${CC} ${FLAGS} -Ift -Imlx -O3 -Ift -g3 -c $< -o $@
+	${CC} -fopenmp ${FLAGS} -Ift -Imlx -O3 -Ift -g3 -Imlx -c $< -o $@
 
 libft:
 	@if [ -d "${LIBFT}" ]; then \
@@ -35,7 +35,7 @@ libft:
 
 mlx:
 	@if [ -d "${MLX}" ]; then \
-		cd libft && git pull; \
+		echo "MLX deja la"; \
 	else \
 		wget https://cdn.intra.42.fr/document/document/28246/minilibx-linux.tgz; \
 		tar -xvsf minilibx-linux.tgz; \
