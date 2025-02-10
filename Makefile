@@ -32,7 +32,7 @@ ${NAME}: ${OBJECTS}
 	@${CC} ${OBJECTS} -L/${LIBFT} -lft -L${MLX} -lmlx_Linux -lXext -lX11 -lm -lz -o ${NAME}
 	@echo -e "${GREEN}✅ Compilation termine"
 	@echo -e ""
-	@echo -e "Try ./fractol -h 😉"
+	@echo -e "./fractol -h 😉"
 
 %.o: %.c
 	@${CC} ${FLAGS} -I/${LIBFT} -I/${MLX} -O3 -g3 -c $< -o $@
