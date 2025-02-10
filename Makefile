@@ -22,13 +22,17 @@ ORANGE			= \033[93m
 RED					= \033[91m
 WHITE				= \033[0m
 
-all: mlx libft ${NAME}
+all: mlx libft title ${NAME}
+
+title:
+	@echo -e "${BLUE}"
+	@cat .title
 
 ${NAME}: ${OBJECTS}
 	@${CC} ${OBJECTS} -L/${LIBFT} -lft -L${MLX} -lmlx_Linux -lXext -lX11 -lm -lz -o ${NAME}
 	@echo -e "${GREEN}✅ Compilation termine"
 	@echo -e ""
-	@echo -e "For help try ./fractol -h 😉"
+	@echo -e "Try ./fractol -h 😉"
 
 %.o: %.c
 	@${CC} ${FLAGS} -I/${LIBFT} -I/${MLX} -O3 -g3 -c $< -o $@
