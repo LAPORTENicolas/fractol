@@ -13,6 +13,8 @@
 #include "../../fractol.h"
 #include <bits/pthreadtypes.h>
 #include <pthread.h>
+#define LIMIT 100
+
 
 int	get_new_color(t_env *env, t_coord a)
 {
@@ -44,8 +46,8 @@ static void	*antialiasing_ssaa2(void *arg)
 {
 	t_argS *argu = (t_argS *)arg;
 	t_coord	initY = {argu->litle.y, argu->big.y};
-	t_coord	limit	= {argu->big.x + (BLOCK_SIZE_SSAA * argu->env.ssaa_coef),\
-		argu->big.y + (BLOCK_SIZE_SSAA * argu->env.ssaa_coef)};
+	t_coord	limit	= {argu->big.x ,\
+		argu->big.y};
 	int		color;
 	int		pixel;
 
@@ -124,9 +126,6 @@ void	aantialiasing_ssaa(t_env *env)
 	}
 }
 
-
-#define LIMIT 100
-
 void	*anti_applie_zone(void *av)
 {
 	t_argF *arg = (t_argF*)av;
@@ -136,7 +135,7 @@ void	*anti_applie_zone(void *av)
 
 	while (zone.x < limit.x && zone.x < env->size.x)
 	{
-		zone.y = limit.y - LIMIT;
+		zone.y = arg->act.y;
 		while (zone.y < limit.y && zone.y < env->size.y)
 		{
 			int pixel = ( (zone.y / env->ssaa_coef) * env->line_length_r) + ((zone.x / env->ssaa_coef) * 4);

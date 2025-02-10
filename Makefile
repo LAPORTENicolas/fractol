@@ -13,51 +13,89 @@ SOURCES			= main.c \
 OBJECTS     = ${SOURCES:.c=.o}
 NAME        = fractol
 CC          = gcc
-FLAGS       = -Wall -Werror -Wextra -march=native 
+FLAGS       = -Wall -Werror -Wextra -march=native
 LIBFT				= libft/
 MLX					= mlx/
+GREEN				= \033[92m
+BLUE				= \033[94m
+ORANGE			= \033[93m
+RED					= \033[91m
+WHITE				= \033[0m
 
 all: mlx libft ${NAME}
 
+title:
+	@echo -e "${BLUE}"
+	@cat .title
+
 ${NAME}: ${OBJECTS}
-	${CC} -fopenmp ${OBJECTS} -fopenmp -Lft -lft -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz -Lft -lft -Ift -o ${NAME}
+	@${CC} -fopenmp ${OBJECTS} -fopenmp -L./${LIBFT} -lft -L./${MLX} -lmlx_Linux -lXext -lX11 -lm -lz -o ${NAME}
+	@echo -e "${GREEN}✅ Compilation termine"
+	@echo -e ""
+	@echo -e "Try ./fractol -h 😉"
 
 %.o: %.c
-	${CC} -fopenmp ${FLAGS} -Ift -Imlx -O3 -Ift -g3 -Imlx -c $< -o $@
+	${CC} -fopenmp ${FLAGS} -I./${LIBFT} -I./${MLX} -O3 -g3 -c $< -o $@
+	@echo -e "${BLUE}✅ Compilation $< objects termine"
+
 
 libft:
 	@if [ -d "${LIBFT}" ]; then \
-		cd libft && git pull; \
+		echo "⏳ Verification de libft ..."; \
+		(cd libft && git pull > /dev/null 2>&1); \
 	else \
-		git clone https://github.com/LAPORTENicolas/libft.git libft; \
+		echo -e "${ORANGE}Pas de libft, telechargement ...${WHITE}"; \
+		(git clone https://github.com/LAPORTENicolas/libft.git libft > /dev/null 2>&1); \
 	fi
-	${MAKE} -C ${LIBFT}
+	@echo -e "${GREEN}✅ Libft, a jour !"; \
+	echo -e "${WHITE}⏳ Compilation ..."; \
+	${MAKE} -C ${LIBFT} > /dev/null
+	@echo -e "${GREEN}✅ Compilation termine${WHITE}"; \
+	echo -e ""; \
 
 mlx:
 	@if [ -d "${MLX}" ]; then \
-		echo "MLX deja la"; \
+		echo "⏳ Verification de mlx ..."; \
 	else \
-		wget https://cdn.intra.42.fr/document/document/28246/minilibx-linux.tgz; \
-		tar -xvsf minilibx-linux.tgz; \
-		rm minilibx-linux.tgz; \
-		mv minilibx-linux mlx; \
+		echo "Installation de la MLX"; \
+		(wget https://cdn.intra.42.fr/document/document/28246/minilibx-linux.tgz > /dev/null 2>&1); \
+		(tar -xvsf minilibx-linux.tgz > /dev/null 2>&1); \
+		(rm minilibx-linux.tgz > /dev/null 2>&1); \
+		(mv minilibx-linux mlx > /dev/null 2>&1); \
 	fi
-	${MAKE} -C ${MLX}
+	@echo -e "${GREEN}✅ MLX, a jour !"; \
+	echo -e "${WHITE}⏳ Compilation ..."; \
+	${MAKE} -s -C ${MLX} > /dev/null
+	@echo -e "${GREEN}✅ Compilation termine${WHITE}"; \
+	echo -e ""; \
 
 clean:
-	rm -rf ${OBJECTS}
-	${MAKE} -C ${LIBFT} clean
-	${MAKE} -C ${MLX} clean
+	@echo -e "${ORANGE}⏳ Supression des objetcs fract-ol"
+	@rm -rf ${OBJECTS}
+	@echo -e "${ORANGE}⏳ Supression des objetcs libft et mlx"
+	@if [ -d "${LIBFT}" ]; then \
+		${MAKE} -C "${LIBFT}" clean > /dev/null 2>&1; \
+	fi
+	@if [ -d "${MLX}" ]; then \
+		${MAKE} -C ${MLX} clean > /dev/null 2>&1; \
+	fi
 
 fclean: clean
-	rm -rf ${NAME}
-	${MAKE} -C ${LIBFT} fclean
-	${MAKE} -C ${MLX} clean
+	@echo -e "${ORANGE}⏳ Supression executale fract-ol"
+	@rm -rf ${NAME}
 
 reset:
-	rm -rf libft/
-	rm -rf mlx/
-	rm -rf ${OBJECTS}
+	@echo -e "${RED}⏳ Supression des sources libft et mlx"
+	@if [ -d "${LIBFT}" ]; then \
+		rm -rf libft/ > /dev/null 2>&1; \
+	fi
+	@if [ -d "${MLX}" ]; then \
+		rm -rf mlx/ > /dev/null 2>&1; \
+	fi
+	@echo -e "${ORANGE}⏳ Supression des object + executale fract-ol"
+	@rm -rf ${OBJECTS}
+	@rm -rf ${NAME}
+	@echo -e "${GREEN}✅ Supression termine"
 
 re: fclean all
 
