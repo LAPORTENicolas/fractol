@@ -109,8 +109,10 @@ int	configure_z(t_env *env, char *s1, char *s2)
 {
 	t_coord	z;
 
-	z.x = ft_atof(s1);
-	z.y = ft_atof(s2);
+  if (!ft_atof(s1) || !ft_atof(s2))
+    return (-1);
+	z.x = *ft_atof(s1);
+	z.y = *ft_atof(s2);
 	if (z.x == 0 || z.y == 0)
 		return (-1);
 	env->z.x = z.x;

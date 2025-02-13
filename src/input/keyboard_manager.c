@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../fractol.h"
-#include <mlx.h>
+#include "../../mlx/mlx.h"
 
 static void	check_move(int button, t_env *env)
 {

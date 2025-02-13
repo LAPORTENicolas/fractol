@@ -6,16 +6,16 @@
 /*   By: nlaporte <nlaporte@student.42>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:09:58 by nlaporte          #+#    #+#             */
-/*   Updated: 2024/12/09 14:10:32 by nlaporte         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:55:31 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <fcntl.h>
-#include <libft.h>
+#include "libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
-#include <mlx.h>
+#include "mlx/mlx.h"
 
 static void	get_header(int fd, int width, int height)
 {
