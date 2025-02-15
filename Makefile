@@ -45,8 +45,7 @@ libft:
 		printf  "${ORANGE}Pas de libft, telechargement ...${WHITE}\n"; \
 		(git clone https://github.com/LAPORTENicolas/libft.git libft > /dev/null 2>&1); \
 	fi
-	@printf  "${GREEN}✅ Libft, a jour !\n"; \
-	${MAKE} -s -C ${LIBFT}
+	@${MAKE} -s -C ${LIBFT}
 
 mlx:
 	@if [ -d "${MLX}" ]; then \
@@ -77,8 +76,14 @@ clean:
 fclean: clean
 	@printf  "${ORANGE}⏳ Supression executale fract-ol\n"
 	@rm -rf ${NAME}
+	@if [ -d "${LIBFT}" ]; then \
+		${MAKE} -C "${LIBFT}" fclean > /dev/null 2>&1; \
+	fi
+	@if [ -d "${MLX}" ]; then \
+		${MAKE} -C ${MLX} clean > /dev/null 2>&1; \
+	fi
 
-reset:
+reset: fclean
 	@printf  "${RED}⏳ Supression des sources libft et mlx\n"
 	@if [ -d "${LIBFT}" ]; then \
 		rm -rf libft/ > /dev/null 2>&1; \

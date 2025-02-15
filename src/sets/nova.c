@@ -30,7 +30,7 @@ static t_coord	nova_logic(t_env *env, t_coord act, double tmp, double tmp2)
 		z3 = complex_mul(complex_mul(z, z), z);
 		z3.x--;
 		z = complex_add(complex_subtract(z, complex_div(z3, \
-		complex_mul(complex_mul(z, z), (t_coord){3, 0}))), c);
+		complex_mul(complex_mul(z, z), (t_coord){2, 0}))), c);
 		if (((z.x - tmp) * (z.x - tmp) + (z.y - tmp2) * (z.y - tmp2)) < 0.01)
 			break ;
 		i.x++;

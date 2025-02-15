@@ -17,7 +17,6 @@ static t_coord	burning_ship_logic(t_env *env, t_coord act)
 	t_coord	i;
 	t_coord	c;
 	t_coord	z;
-	double	tmp;
 
 	c = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
@@ -27,9 +26,8 @@ static t_coord	burning_ship_logic(t_env *env, t_coord act)
 	{
 		z.x = fabs(z.x);
 		z.y = fabs(z.y);
-		tmp = z.x;
-		z.x = z.x * z.x - z.y * z.y + c.x;
-		z.y = 2 * z.y * tmp + c.y;
+		z = complex_mul(z, z);
+		z = complex_add(z, c);
 		i.x++;
 	}
 	i.y = z.x * z.x + z.y * z.y;

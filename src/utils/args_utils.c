@@ -105,15 +105,13 @@ int	configure_color(t_env *env, char *s)
 	return (0);
 }
 
-int     configure_z(t_env *env, char *s1, char *s2)
+int	configure_z(t_env *env, char *s1, char *s2)
 {
-	double  *zx;
-	double  *zy;
+	double	*zx;
+	double	*zy;
 
-	printf("s1  %s\n", s1);
 	zx = ft_atof(s1);
 	zy = ft_atof(s2);
-	printf("zx  %f\n", *zx);
 	if (!zx || !*zx)
 		return (-1);
 	if (!zy || !*zy)

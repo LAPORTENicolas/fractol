@@ -22,18 +22,15 @@ static t_coord	julia_logic(t_env *env, t_coord act)
 	t_coord	i;
 	t_coord	c;
 	t_coord	z;
-	double	tmp;
 
-	(void) act;
 	c = init_vec2(env->z.x, env->z.y);
 	z = init_vec2(act.x / env->size.z + env->plage.x1, \
 	act.y / env->size.z + env->plage.y1);
 	i.x = 0;
 	while (z.x * z.x + z.y * z.y < env->limit && i.x < env->itelimit)
 	{
-		tmp = z.x;
-		z.x = z.x * z.x - z.y * z.y + c.x;
-		z.y = 2 * z.y * tmp + c.y;
+		z = complex_mul(z, z);
+		z = complex_add(z, c);
 		i.x++;
 	}
 	i.y = z.x * z.x + z.y * z.y;
