@@ -22,20 +22,20 @@ ORANGE			= \033[93m
 RED					= \033[91m
 WHITE				= \033[0m
 
-all: mlx libft title ${NAME}
+all: mlx libft ${NAME} title
 
 title:
 	@printf  "${BLUE}"
 	@cat .title
+	@printf  "${GREEN}./fractol -h 😉\n"
 
 ${NAME}: ${OBJECTS}
 	@${CC} ${OBJECTS} -L./${LIBFT} -lft -L./${MLX} -lmlx_Linux -lXext -lX11 -lm -lz -o ${NAME}
-	@printf  "${GREEN}✅ Compilation termine\n"
-	@printf  "./fractol -h 😉\n"
+	@printf  "${GREEN}\n✅ Compilation termine\n"
 
 %.o: %.c
 	@${CC} ${FLAGS} -I./${LIBFT} -I./${MLX} -O3 -g3 -c $< -o $@
-	@printf  "${BLUE}✅ Compilation $< objects termine\n"
+	@printf  "\r${BLUE}✅ Compilation $< objects termine"
 
 libft:
 	@if [ -d "${LIBFT}" ]; then \
