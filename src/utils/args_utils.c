@@ -51,13 +51,13 @@ int	configure_itelimit(t_env *env, char *s)
 	limit = ft_atoi(s);
 	if ((limit <= 0 || limit >= 3001) && !env->buddhatakecontrol)
 	{
-		ft_putendl_fd("\033[31mIteration limit error:\
+		ft_printf("\033[31mIteration limit error:\
 		bad value, try ./fractol -l [1 - 3000]\033[0m", 2);
 		return (-1);
 	}
 	else if ((limit <= 200 || limit >= 2000000) && env->buddharender)
 	{
-		ft_putendl_fd("\033[31mIteration limit error:\
+		ft_printf("\033[31mIteration limit error:\
 		bad value, try ./fractol -l [1 - 3000]\033[0m", 2);
 		return (-1);
 	}
@@ -74,7 +74,7 @@ int	configure_limit(t_env *env, char *s)
 	limit = ft_atoi(s);
 	if (limit <= 1 || limit >= 11)
 	{
-		ft_putendl_fd("\033[31mLimit error:\
+		ft_printf("\033[31mLimit error:\
 		bad value, try ./fractol -l [2 - 10]\033[0m", 2);
 		return (-1);
 	}
@@ -105,15 +105,29 @@ int	configure_color(t_env *env, char *s)
 	return (0);
 }
 
-int	configure_z(t_env *env, char *s1, char *s2)
+int     configure_z(t_env *env, char *s1, char *s2)
 {
-	t_coord	z;
+	double  *zx;
+	double  *zy;
 
-	z.x = ft_atof(s1);
-	z.y = ft_atof(s2);
-	if (z.x == 0 || z.y == 0)
+	printf("s1  %s\n", s1);
+	zx = ft_atof(s1);
+	zy = ft_atof(s2);
+	printf("zx  %f\n", *zx);
+	if (!zx || !*zx)
 		return (-1);
-	env->z.x = z.x;
-	env->z.y = z.y;
+	if (!zy || !*zy)
+		return (-1);
+	if (*zx > 10 || *zx < -10 || *zy > 10 || *zy < -10)
+	{
+		ft_printf("Bad val\n");
+		free(zx);
+		free(zy);
+		return (-1);
+	}
+	env->z.x = *zx;
+	env->z.y = *zy;
+	free(zx);
+	free(zy);
 	return (0);
 }

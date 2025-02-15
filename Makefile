@@ -25,53 +25,48 @@ WHITE				= \033[0m
 all: mlx libft title ${NAME}
 
 title:
-	@echo  "${BLUE}"
+	@printf  "${BLUE}"
 	@cat .title
 
 ${NAME}: ${OBJECTS}
 	@${CC} ${OBJECTS} -L./${LIBFT} -lft -L./${MLX} -lmlx_Linux -lXext -lX11 -lm -lz -o ${NAME}
-	@echo  "${GREEN}✅ Compilation termine"
-	@echo  ""
-	@echo  "./fractol -h 😉"
+	@printf  "${GREEN}✅ Compilation termine\n"
+	@printf  "./fractol -h 😉\n"
 
 %.o: %.c
 	@${CC} ${FLAGS} -I./${LIBFT} -I./${MLX} -O3 -g3 -c $< -o $@
-	@echo  "${BLUE}✅ Compilation $< objects termine"
+	@printf  "${BLUE}✅ Compilation $< objects termine\n"
 
 libft:
 	@if [ -d "${LIBFT}" ]; then \
-		echo "⏳ Verification de libft ..."; \
+		printf "⏳ Verification de libft ...\n"; \
 		(cd libft && git pull > /dev/null 2>&1); \
 	else \
-		echo  "${ORANGE}Pas de libft, telechargement ...${WHITE}"; \
+		printf  "${ORANGE}Pas de libft, telechargement ...${WHITE}\n"; \
 		(git clone https://github.com/LAPORTENicolas/libft.git libft > /dev/null 2>&1); \
 	fi
-	@echo  "${GREEN}✅ Libft, a jour !"; \
-	echo  "${WHITE}⏳ Compilation ..."; \
-	${MAKE} -C ${LIBFT} > /dev/null
-	@echo  "${GREEN}✅ Compilation termine${WHITE}"; \
-	echo  ""; \
+	@printf  "${GREEN}✅ Libft, a jour !\n"; \
+	${MAKE} -s -C ${LIBFT}
 
 mlx:
 	@if [ -d "${MLX}" ]; then \
-		echo "⏳ Verification de mlx ..."; \
+		printf "⏳ Verification de mlx ...\n"; \
 	else \
-		echo "Installation de la MLX"; \
+		printf "Installation de la MLX\n"; \
 		(wget https://cdn.intra.42.fr/document/document/28246/minilibx-linux.tgz > /dev/null 2>&1); \
 		(tar -xvsf minilibx-linux.tgz > /dev/null 2>&1); \
 		(rm minilibx-linux.tgz > /dev/null 2>&1); \
 		(mv minilibx-linux mlx > /dev/null 2>&1); \
 	fi
-	@echo  "${GREEN}✅ MLX, a jour !"; \
-	echo  "${WHITE}⏳ Compilation ..."; \
+	@printf  "${GREEN}✅ MLX, a jour !\n"; \
+	printf  "${WHITE}⏳ Compilation ...\n"; \
 	${MAKE} -s -C ${MLX} > /dev/null
-	@echo  "${GREEN}✅ Compilation termine${WHITE}"; \
-	echo  ""; \
+	@printf  "${GREEN}✅ Compilation termine${WHITE}\n"; \
 
 clean:
-	@echo  "${ORANGE}⏳ Supression des objetcs fract-ol"
+	@printf  "${ORANGE}⏳ Supression des objetcs fract-ol\n"
 	@rm -rf ${OBJECTS}
-	@echo  "${ORANGE}⏳ Supression des objetcs libft et mlx"
+	@printf  "${ORANGE}⏳ Supression des objetcs libft et mlx\n"
 	@if [ -d "${LIBFT}" ]; then \
 		${MAKE} -C "${LIBFT}" clean > /dev/null 2>&1; \
 	fi
@@ -80,21 +75,21 @@ clean:
 	fi
 
 fclean: clean
-	@echo  "${ORANGE}⏳ Supression executale fract-ol"
+	@printf  "${ORANGE}⏳ Supression executale fract-ol\n"
 	@rm -rf ${NAME}
 
 reset:
-	@echo  "${RED}⏳ Supression des sources libft et mlx"
+	@printf  "${RED}⏳ Supression des sources libft et mlx\n"
 	@if [ -d "${LIBFT}" ]; then \
 		rm -rf libft/ > /dev/null 2>&1; \
 	fi
 	@if [ -d "${MLX}" ]; then \
 		rm -rf mlx/ > /dev/null 2>&1; \
 	fi
-	@echo  "${ORANGE}⏳ Supression des object + executale fract-ol"
+	@printf  "${ORANGE}⏳ Supression des object + executale fract-ol\n"
 	@rm -rf ${OBJECTS}
 	@rm -rf ${NAME}
-	@echo  "${GREEN}✅ Supression termine"
+	@printf  "${GREEN}✅ Supression termine\n"
 
 re: reset all
 

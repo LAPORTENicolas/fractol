@@ -156,7 +156,6 @@ void		rotate_buddha(t_env *env);
 
 t_env		create_env(void);
 
-double		ft_atof(char *s);
 double		ft_length(t_coord x);
 double		ft_min(double x, double y);
 

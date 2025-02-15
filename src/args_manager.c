@@ -100,7 +100,7 @@ int	args_manager(int ac, char **av, t_env *env)
 		return (-1);
 	if (status == -1)
 	{
-		ft_putendl_fd("\033[31mError bad argument, try ./fractol -h\033[0m", 2);
+		ft_printf("\033[31mError bad argument, try ./fractol -h\033[0m");
 		return (-1);
 	}
 	else if (status == 1)
